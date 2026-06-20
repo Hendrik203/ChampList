@@ -163,9 +163,12 @@ button:hover {
 }
 
 .list-item span {
-  flex: 1;
   font-size: 1.5rem;
   font-weight: 500;
+}
+
+.spacer {
+  flex: 1;
 }
 
 .role-select {
@@ -283,4 +286,22 @@ button:hover {
 
 .modal-role-row-bottom .modal-role-btn {
   width: 110px;
+}
+
+.statlink {
+  font-family: 'Spectral', serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 4px 12px;
+  background-color: transparent;
+  border: 1px solid var(--color-gold);
+  border-radius: 4px;
+  color: var(--color-gold);
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.statlink:hover {
+  background-color: var(--color-gold);
+  color: var(--color-bg);
 }

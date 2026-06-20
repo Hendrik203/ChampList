@@ -111,6 +111,8 @@ function renderMyList() {
       champDiv.innerHTML = `
         <img src="https://ddragon.leagueoflegends.com/cdn/16.12.1/img/champion/${champ.image.full}" width="32" height="32">
         <span>${champ.name}</span>
+        <a href="${buildOpggUrl(champ.name)}" target="_blank" rel="noopener noreferrer" class="statlink">Stats</a>
+        <span class="spacer"></span>
         <select class="role-select">
           ${ROLES.map(r => `<option value="${r}" ${r === entry.role ? 'selected' : ''}>${r}</option>`).join('')}
         </select>
@@ -204,5 +206,10 @@ document.querySelectorAll('.modal-role-btn').forEach(btn => {
 });
 
 document.getElementById('modal-close-btn').addEventListener('click', closeRoleModal);
+
+function buildOpggUrl(championName) {
+  const formattedName = championName.toLowerCase().replace(" ", "");
+  return `https://op.gg/lol/champions/${formattedName}/build`;
+}
 
 loadChampions();
