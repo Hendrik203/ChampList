@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <title>LoL Champion List</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Spectral:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <h1>Champion List</h1>
+
+    <!-- Such-Bereich -->
+    <section id="search-section">
+        <input type="text" id="search-input" placeholder="Search champions...">
+        <div id="search-results"></div>
+    </section>
+
+    <!-- Liste-Bereich, nach Rollen unterteilt -->
+    <section id="list-section">
+        <h2>My Champions</h2>
+        <div id="champion-list"></div>
+    </section>
+
+    <div id="role-modal" class="modal-overlay hidden">
+        <div class="modal-box">
+            <button class="modal-close-btn" id="modal-close-btn">&times;</button>
+            <h3>Choose role</h3>
+            <div class="modal-role-grid">
+                <div class="modal-role-row">
+                    <button class="modal-role-btn" data-role="Top">Top</button>
+                    <button class="modal-role-btn" data-role="Jungle">Jungle</button>
+                    <button class="modal-role-btn" data-role="Mid">Mid</button>
+                </div>
+                <div class="modal-role-row modal-role-row-bottom">
+                    <button class="modal-role-btn" data-role="ADC">ADC</button>
+                    <button class="modal-role-btn" data-role="Support">Support</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
