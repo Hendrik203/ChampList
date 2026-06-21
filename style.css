@@ -153,6 +153,21 @@ button:hover {
   border-radius: 20px;
   padding: 14px 20px;
   margin-bottom: 10px;
+  cursor: grab;
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+
+.list-item:hover {
+  border-color: var(--color-teal);
+}
+
+.list-item.dragging {
+  opacity: 0.4;
+}
+
+.list-item.drag-over {
+  border-color: var(--color-teal);
+  border-style: dashed;
 }
 
 .list-item img {
@@ -305,3 +320,4 @@ button:hover {
   background-color: var(--color-gold);
   color: var(--color-bg);
 }
+

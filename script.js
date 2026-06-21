@@ -1,6 +1,7 @@
 let allChampions = {}; //Champion list
 let myChampionList = []; // Array with List
 let currentChampionForModal = null; //speicherort für modal champ
+let draggedEntryId = null; //drag & drop
 const ROLES = ['Top', 'Jungle', 'Mid', 'ADC', 'Support'];
 const STORAGE_KEY = 'myChampionList';
 
@@ -88,6 +89,66 @@ function addChampionToList(championId, role) {
 }
 
 
+// activates by drag starts
+function handleDragStart(event) {
+  draggedEntryId = event.target.dataset.entryId;
+  event.target.classList.add('dragging');
+}
+
+// while dragging
+function handleDragOver(event) {
+  event.preventDefault();
+
+  const targetItem = event.target.closest('.list-item');
+  if (!targetItem) return;
+
+  // Target same Role?
+  const targetRoleSection = targetItem.closest('.role-section');
+  const draggedItem = document.querySelector(`[data-entry-id="${draggedEntryId}"]`);
+  const draggedRoleSection = draggedItem ? draggedItem.closest('.role-section') : null;
+
+  if (targetRoleSection !== draggedRoleSection) return; // if other Roles
+
+  targetItem.classList.add('drag-over');
+}
+
+// activates if target leaves
+function handleDragLeave(event) {
+  const targetItem = event.target.closest('.list-item');
+  if (targetItem) targetItem.classList.remove('drag-over');
+}
+
+// activates if you drop
+function handleDrop(event) {
+  event.preventDefault();
+
+  const targetItem = event.target.closest('.list-item');
+  if (!targetItem) return;
+
+  const targetEntryId = targetItem.dataset.entryId;
+  targetItem.classList.remove('drag-over');
+
+  if (targetEntryId === draggedEntryId) return;
+
+
+  const draggedIndex = myChampionList.findIndex(e => String(e.entryId) === draggedEntryId);
+  const targetIndex = myChampionList.findIndex(e => String(e.entryId) === targetEntryId);
+
+  if (myChampionList[draggedIndex].role !== myChampionList[targetIndex].role) return;
+
+  const [draggedEntry] = myChampionList.splice(draggedIndex, 1);
+  myChampionList.splice(targetIndex, 0, draggedEntry);
+
+  saveListToStorage();
+  renderMyList();
+}
+
+function handleDragEnd(event) {
+  event.target.classList.remove('dragging');
+  draggedEntryId = null;
+}
+
+
 // List with champs and roles
 function renderMyList() {
   const container = document.getElementById('champion-list');
@@ -99,6 +160,7 @@ function renderMyList() {
 
     const roleSection = document.createElement('div');
     roleSection.classList.add('role-section');
+    roleSection.dataset.role = role;
 
     const heading = document.createElement('h3');
     heading.textContent = role;
@@ -108,6 +170,10 @@ function renderMyList() {
       const champ = allChampions[entry.championId];
       const champDiv = document.createElement('div');
       champDiv.classList.add('list-item');
+      champDiv.draggable = true;
+      champDiv.dataset.entryId = entry.entryId;
+
+
       champDiv.innerHTML = `
         <img src="https://ddragon.leagueoflegends.com/cdn/16.12.1/img/champion/${champ.image.full}" width="32" height="32">
         <span>${champ.name}</span>
@@ -130,6 +196,14 @@ function renderMyList() {
       removeBtn.addEventListener('click', () => {
         removeFromList(entry.entryId);
       });
+
+      //Drag & Drop Event-Listener
+      champDiv.addEventListener('dragstart', handleDragStart);
+      champDiv.addEventListener('dragover', handleDragOver);
+      champDiv.addEventListener('dragleave', handleDragLeave);
+      champDiv.addEventListener('drop', handleDrop);
+      champDiv.addEventListener('dragend', handleDragEnd);
+
 
       roleSection.appendChild(champDiv);
     });
