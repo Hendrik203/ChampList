@@ -321,14 +321,3 @@ button:hover {
   color: var(--color-bg);
 }
 
-.backup-controls {
-  display: flex;
-  justify-content: center;
-  gap: 12px;
-  margin-bottom: 20px;
-}
-
-.backup-controls button {
-  font-size: 0.85rem;
-  padding: 8px 14px;
-}
